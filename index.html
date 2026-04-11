@@ -3,619 +3,585 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEV_PORTFOLIO // SYSTEM_READY</title>
+    <title>Alan Gutierrez Ramirez — C++ Developer</title>
     <style>
-        /* * 1. THE AESTHETIC 
-         * Using a 'Terminal' style to suggest backend/engine mastery.
-         */
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap');
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #050505;
-            color: #e0e0e0;
+        :root {
+            --green: #00ff96;
+            --green-dim: rgba(0, 255, 150, 0.1);
+            --green-glow: rgba(0, 255, 150, 0.3);
+            --bg: #050505;
+            --surface: #0c0c0c;
+            --border: #1c1c1c;
+            --text: #e0e0e0;
+            --muted: #555;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Fira Code', monospace;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
-        /* The 3D Canvas */
-        #gl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            outline: none;
-        }
-
-        /* Header */
+        /* ── HEADER ── */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 2rem;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            opacity: 0.8;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(0, 255, 150, 0.5);
-            pointer-events: auto;
-        }
-
-        .meta {
-            color: #00ff96;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #aaaaaa;
-        }
-
-        /* Navigation Controls */
-        .controls {
-            pointer-events: auto;
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-        }
-
-        button {
-            background: transparent;
-            border: 1px solid #00ff96;
-            color: #00ff96;
-            font-family: 'Fira Code', monospace;
-            padding: 10px 20px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #00ff96;
-            color: #000;
-            box-shadow: 0 0 15px #00ff96;
-        }
-
-        /* Loading Screen */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
+            position: fixed; top: 0; left: 0; right: 0;
             z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 1s ease;
-            color: #00ff96;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 2.5rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s, background 0.3s;
+            font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
         }
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.92);
+            backdrop-filter: blur(12px);
+            border-color: var(--border);
+        }
+        .header-name { color: var(--green); font-weight: 700; }
+        nav { display: flex; gap: 2rem; }
+        nav a {
+            color: var(--muted); text-decoration: none;
+            transition: color 0.2s; letter-spacing: 2px;
+        }
+        nav a:hover { color: var(--green); }
 
-        /* Hero Section */
-        #hero-section {
-            height: 100vh;
-            width: 100%;
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 8rem 2.5rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; /* Align content to bottom */
-            padding: 2rem;
-            padding-bottom: 100px; /* Space for arrow */
-            box-sizing: border-box;
-            pointer-events: none; /* Let clicks pass through to canvas */
-            z-index: 5;
         }
-
-        .project-ui {
-            pointer-events: auto; /* Re-enable clicks for buttons */
-            max-width: 600px;
+        .hero-label {
+            font-size: 0.7rem; letter-spacing: 4px; color: var(--green);
+            text-transform: uppercase; margin-bottom: 1.5rem;
         }
-
-        /* Scroll Arrow */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            opacity: 0.7;
-            animation: bounce 2s infinite;
-            pointer-events: auto;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .arrow-icon { font-size: 2rem; color: #00ff96; display: block; }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-10px);}
-            60% {transform: translateX(-50%) translateY(-5px);}
-        }
-
-        /* Profile Section */
-        #profile-section {
-            min-height: 80vh;
-            background: rgba(10, 10, 15, 0.9); /* Dark glass */
-            backdrop-filter: blur(15px);
-            border-top: 1px solid #00ff96;
-            padding: 4rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 60px;
-            max-width: 1000px;
-            width: 100%;
-            margin-top: 40px;
-        }
-
-        .profile-pic {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 4px solid #00ff96;
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 255, 150, 0.2);
-            background-color: #111;
-        }
-        
-        .xp-list { text-align: left; }
-        .xp-item { margin-bottom: 30px; border-left: 2px solid #333; padding-left: 20px; transition: 0.3s; }
-        .xp-item:hover { border-left-color: #00ff96; }
-        .xp-role { color: #fff; font-size: 1.2rem; font-weight: bold; display: block; }
-        .xp-date { color: #00ff96; font-size: 0.8rem; margin-bottom: 8px; display: block; }
-
-        .cv-link {
-            color: #00ff96;
-            text-decoration: none;
-            border: 1px solid #00ff96;
-            padding: 10px 20px;
-            display: inline-block;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-        .cv-link:hover {
-            background: #00ff96;
-            color: #000;
-        }
-
-        #coming-soon-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 5rem;
-            font-weight: 700;
+        .hero-name {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 700; line-height: 1;
+            margin-bottom: 0.5rem;
             color: #fff;
-            border: 4px solid #fff;
-            padding: 20px 40px;
-            letter-spacing: 10px;
-            opacity: 0; 
-            pointer-events: none;
-            z-index: 50;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        .hero-role {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--muted); font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .hero-role span { color: var(--green); }
+        .hero-bio {
+            font-size: 0.9rem; line-height: 1.8; color: #777;
+            max-width: 560px; margin-bottom: 2.5rem; font-weight: 300;
+        }
+        .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            padding: 10px 22px; cursor: pointer; text-decoration: none;
+            border: 1px solid var(--border); color: var(--muted);
+            background: transparent; transition: all 0.25s;
+            display: inline-block;
+        }
+        .btn:hover { border-color: var(--green); color: var(--green); }
+        .btn-primary {
+            border-color: var(--green); color: var(--green);
+        }
+        .btn-primary:hover {
+            background: var(--green); color: #000;
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+        .scroll-hint {
+            position: absolute; bottom: 2.5rem; left: 2.5rem;
+            font-size: 0.65rem; letter-spacing: 3px; color: var(--muted);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .scroll-hint::before {
+            content: ''; display: block; width: 40px; height: 1px;
+            background: var(--muted);
         }
 
-        /* Mobile Responsiveness */
+        /* ── SECTIONS ── */
+        section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.65rem; letter-spacing: 4px; color: var(--green);
+            text-transform: uppercase; margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700;
+            color: #fff; margin-bottom: 3rem;
+            padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+        }
+
+        /* ── PROJECTS ── */
+        #projects { max-width: 1100px; }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--border);
+            margin-bottom: 2px;
+            transition: border-color 0.3s;
+            min-height: 340px;
+        }
+        .project-card:hover { border-color: #333; }
+        .project-card.reverse { direction: rtl; }
+        .project-card.reverse > * { direction: ltr; }
+
+        /* VIDEO / MEDIA SIDE */
+        .project-media {
+            position: relative; overflow: hidden;
+            background: #080808;
+        }
+        .project-media video {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+        }
+
+        /* PLACEHOLDER — for when video isn't ready */
+        .video-placeholder {
+            width: 100%; height: 100%; min-height: 280px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px;
+            background: #060606;
+            position: relative; overflow: hidden;
+        }
+        /* Subtle animated grid */
+        .video-placeholder::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+        }
+        /* Corner accents */
+        .video-placeholder::after {
+            content: '';
+            position: absolute; inset: 16px;
+            border: 1px solid transparent;
+            border-top-color: var(--green);
+            border-left-color: var(--green);
+            opacity: 0.25;
+        }
+        .placeholder-title {
+            font-size: 1.1rem; font-weight: 700; color: #fff;
+            letter-spacing: 3px; text-transform: uppercase;
+            position: relative; z-index: 1;
+        }
+        .placeholder-status {
+            font-size: 0.65rem; letter-spacing: 3px; color: var(--green);
+            text-transform: uppercase; position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .placeholder-status::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.2; }
+        }
+        .placeholder-awards {
+            font-size: 0.6rem; color: #444; letter-spacing: 1px;
+            text-align: center; padding: 0 24px;
+            position: relative; z-index: 1;
+            line-height: 1.8;
+        }
+
+        /* INFO SIDE */
+        .project-info {
+            padding: 2.5rem;
+            display: flex; flex-direction: column; justify-content: center;
+            background: var(--surface);
+        }
+        .project-number {
+            font-size: 0.6rem; color: var(--muted); letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+        .project-title {
+            font-size: 1.5rem; font-weight: 700; color: #fff;
+            margin-bottom: 0.75rem; line-height: 1.1;
+        }
+        .project-tech {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-bottom: 1.2rem;
+        }
+        .tech-tag {
+            font-size: 0.6rem; padding: 3px 10px; letter-spacing: 1px;
+            border: 1px solid var(--border); color: var(--green);
+            background: var(--green-dim); text-transform: uppercase;
+        }
+        .project-desc {
+            font-size: 0.82rem; line-height: 1.8; color: #666;
+            margin-bottom: 1.5rem; font-weight: 300;
+        }
+        .project-awards {
+            font-size: 0.68rem; color: var(--green);
+            margin-bottom: 1.5rem; line-height: 1.8;
+            border-left: 2px solid var(--green);
+            padding-left: 12px;
+        }
+        .project-links { display: flex; gap: 10px; }
+
+        /* ── ABOUT / PROFILE ── */
+        #about { border-top: 1px solid var(--border); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 5rem; align-items: start;
+        }
+        .about-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+        .profile-pic {
+            width: 200px; height: 200px; object-fit: cover;
+            border: 1px solid var(--border);
+            background: #111; display: block;
+            transition: border-color 0.3s;
+        }
+        .profile-pic:hover { border-color: var(--green); }
+        .about-links { display: flex; flex-direction: column; gap: 8px; }
+        .about-link {
+            font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+            padding: 9px 16px; border: 1px solid var(--border);
+            color: var(--muted); text-decoration: none;
+            transition: all 0.2s; display: block; text-align: center;
+        }
+        .about-link:hover { border-color: var(--green); color: var(--green); }
+
+        /* Skills */
+        .skills-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+        .skill-group-label {
+            font-size: 0.62rem; letter-spacing: 3px; color: var(--muted);
+            text-transform: uppercase; margin-bottom: 8px;
+        }
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag {
+            font-size: 0.65rem; padding: 4px 12px;
+            border: 1px solid var(--border); color: #666;
+            transition: all 0.2s; cursor: default;
+        }
+        .tag:hover { border-color: var(--green); color: var(--green); }
+        .tag.core { border-color: #1a2e24; color: var(--green); background: var(--green-dim); }
+
+        /* Experience */
+        .xp-list { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+        .xp-item {
+            border-left: 1px solid var(--border);
+            padding: 0 0 2.5rem 1.8rem;
+            position: relative; transition: border-color 0.3s;
+        }
+        .xp-item:last-child { padding-bottom: 0; }
+        .xp-item::before {
+            content: ''; position: absolute; left: -4px; top: 5px;
+            width: 7px; height: 7px;
+            background: var(--border); border-radius: 50%;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .xp-item:hover { border-left-color: var(--green); }
+        .xp-item:hover::before {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+        }
+        .xp-role { font-size: 1rem; font-weight: 700; color: #fff; display: block; margin-bottom: 3px; }
+        .xp-co { font-size: 0.72rem; color: var(--green); display: block; margin-bottom: 4px; letter-spacing: 1px; }
+        .xp-date { font-size: 0.65rem; color: var(--muted); display: block; margin-bottom: 10px; letter-spacing: 1px; }
+        .xp-desc { font-size: 0.8rem; color: #555; line-height: 1.7; font-weight: 300; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 2.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.65rem; color: var(--muted); letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        footer a { color: var(--green); text-decoration: none; }
+
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-            .profile-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                text-align: center;
-            }
-            .xp-list {
-                text-align: left;
-            }
-            h1 { font-size: 1.8rem; }
-            #coming-soon-label { font-size: 2rem; border-width: 2px; padding: 10px 20px; }
+            header { padding: 1rem 1.5rem; }
+            nav { display: none; }
+            #hero { padding: 7rem 1.5rem 4rem; }
+            section { padding: 4rem 1.5rem; }
+            .project-card { grid-template-columns: 1fr; }
+            .project-card.reverse { direction: ltr; }
+            .project-media { min-height: 220px; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-sidebar { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+            footer { flex-direction: column; gap: 8px; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-<div id="loader">
-    <div style="margin-bottom: 10px;">INITIALIZING ENGINE...</div>
-    <div id="loading-text">0%</div>
-    <button id="start-btn" style="display:none; margin-top: 20px;">[ ENTER SYSTEM ]</button>
+<header id="main-header">
+    <div class="header-name">Alan Gutierrez Ramirez</div>
+    <nav>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="./cv/Alan-Gutierrez-CV_EN.docx">CV</a>
+    </nav>
+</header>
+
+<!-- ── HERO ── -->
+<div id="hero">
+    <div class="hero-label">// C++ Software Developer · Graphics & Simulation</div>
+    <h1 class="hero-name">Alan<br>Gutierrez Ramirez</h1>
+    <p class="hero-role">Engine programmer. <span>Game developer.</span> Based in Valencia.</p>
+    <p class="hero-bio">
+        3+ years building real-time systems — from custom OpenGL engines to PhysX simulation platforms and shipped Steam games.
+        EU citizen, available remote or on-site.
+    </p>
+    <div class="hero-links">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn" href="./cv/Gutierrez-CV.pdf">Download CV</a>
+        <a class="btn" href="https://linkedin.com/in/alangutierrez" target="_blank">LinkedIn</a>
+        <a class="btn" href="https://github.com/alangutierrezramirez" target="_blank">GitHub</a>
+    </div>
+    <div class="scroll-hint">Scroll to explore</div>
 </div>
 
-    <header>
-        <div>// SYSTEM_USER: Alan Gutierrez Ramirez</div>
-        <div>FPS: <span id="fps">60</span></div>
-    </header>
+<!-- ── PROJECTS ── -->
+<section id="projects">
+    <div class="section-label">// Selected Work</div>
+    <h2 class="section-title">Projects</h2>
 
-    <div id="coming-soon-label">COMING SOON</div>
+    <!-- 01 — SHELLEY MANOR (placeholder hasta tener el vídeo) -->
+    <div class="project-card">
+        <div class="project-media">
+            <!--
+                SHELLEY MANOR VIDEO
+                Cuando tengas el vídeo editado, reemplaza el bloque .video-placeholder
+                por este elemento:
 
-    <section id="hero-section">
-        <div class="project-ui">
-            <span class="meta" id="p-tech">NREAL ENGINE 5 // C++ // Unity // C# // Shaders</span>
-            <h1 id="p-title">Through the years</h1>
-            <p id="p-desc">A journey in my development for video game development</p>
-            
-            <div class="controls">
-                <button onclick="prevProject()">&lt; PREV</button>
-                <button onclick="nextProject()">NEXT &gt;</button>
+                <video autoplay loop muted playsinline>
+                    <source src="./videos/shelley_manor.webm" type="video/webm">
+                </video>
+            -->
+            <div class="video-placeholder">
+                <div class="placeholder-title">Shelley Manor</div>
+                <div class="placeholder-status">Video in post-production</div>
+                <div class="placeholder-awards">
+                    🏆 Best Student Game · Latam Games Com 2025<br>
+                    🏅 Top 5 Hobby Game · GDWC Winter Season
+                </div>
+            </div>
+        </div>
+        <div class="project-info">
+            <div class="project-number">01 / 04</div>
+            <div class="project-title">Shelley Manor</div>
+            <div class="project-tech">
+                <span class="tech-tag">Unreal Engine 5</span>
+                <span class="tech-tag">C++</span>
+                <span class="tech-tag">Blueprints</span>
+                <span class="tech-tag">Steam</span>
+            </div>
+            <p class="project-desc">
+                3D narrative game shipped on Steam, developed in a multidisciplinary team.
+                Implemented state machine-driven character systems, event-driven scripting,
+                camera controls, and post-processing effects.
+            </p>
+            <div class="project-awards">
+                🏆 Best Student Game · Latam Games Com 2025<br>
+                🏅 Top 5 Hobby Game · GDWC Winter Season
+            </div>
+            <div class="project-links">
+                <a class="btn btn-primary" href="https://store.steampowered.com" target="_blank">View on Steam ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 02 — JAM ENGINE -->
+    <div class="project-card reverse">
+        <div class="project-media">
+                <video autoplay loop muted playsinline>
+                    <source src="./videos/engine.webm" type="video/webm">
+                </video>
+            <div class="video-placeholder">
+                <div class="placeholder-title">JAM Engine</div>
+                <div class="placeholder-status">Video coming soon</div>
+            </div>
+        </div>
+        <div class="project-info">
+            <div class="project-number">02 / 04</div>
+            <div class="project-title">JAM Engine</div>
+            <div class="project-tech">
+                <span class="tech-tag">C++</span>
+                <span class="tech-tag">OpenGL</span>
+                <span class="tech-tag">GLSL</span>
+                <span class="tech-tag">ECS</span>
+            </div>
+            <p class="project-desc">
+                Custom 3D game engine built from scratch. Full ECS architecture, render loop,
+                memory management, real-time lighting, shadow mapping, volumetric lighting,
+                and particle systems. Comprehensive API documentation included.
+            </p>
+            <div class="project-links">
+                <a class="btn btn-primary" href="https://github.com/alangutierrezramirez" target="_blank">GitHub ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 03 — UNITY DIALOGUE SYSTEM -->
+    <div class="project-card">
+        <div class="project-media">
+                <video autoplay loop muted playsinline>
+                    <source src="./videos/unity_chat.webm" type="video/webm">
+                </video>
+            <div class="video-placeholder">
+                <div class="placeholder-title">Dialogue System</div>
+                <div class="placeholder-status">Video coming soon</div>
+            </div>
+        </div>
+        <div class="project-info">
+            <div class="project-number">03 / 04</div>
+            <div class="project-title">Unity Dialogue System</div>
+            <div class="project-tech">
+                <span class="tech-tag">C#</span>
+                <span class="tech-tag">Unity</span>
+            </div>
+            <p class="project-desc">
+                Event-driven conversation system built in Unity — branching dialogue,
+                character state management, and full UI integration.
+            </p>
+            <div class="project-links">
+                <a class="btn" href="https://github.com/alangutierrezramirez" target="_blank">GitHub ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 04 — STAR CASTLE -->
+    <div class="project-card reverse">
+        <div class="project-media">
+                <video autoplay loop muted playsinline>
+                    <source src="./videos/starcastle.webm" type="video/webm">
+                </video>
+            <div class="video-placeholder">
+                <div class="placeholder-title">Star Castle</div>
+                <div class="placeholder-status">Video coming soon</div>
+            </div>
+        </div>
+        <div class="project-info">
+            <div class="project-number">04 / 04</div>
+            <div class="project-title">Star Castle</div>
+            <div class="project-tech">
+                <span class="tech-tag">C++</span>
+                <span class="tech-tag">No Engine</span>
+            </div>
+            <p class="project-desc">
+                Full recreation of the arcade classic built entirely in C++, no game engine.
+                Custom rendering, collision, and game loop from scratch.
+            </p>
+            <div class="project-links">
+                <a class="btn" href="https://github.com/alangutierrezramirez" target="_blank">GitHub ↗</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+    <div class="section-label">// Background</div>
+    <h2 class="section-title">About</h2>
+
+    <div class="about-grid">
+        <div class="about-sidebar">
+            <img src="./imgs/selfie.jpeg" class="profile-pic" alt="Alan Gutierrez Ramirez">
+            <div class="about-links">
+                <a href="./cv/Gutierrez-CV.pdf" class="about-link">↓ Download CV</a>
+                <a href="https://linkedin.com/in/alangutierrez" class="about-link" target="_blank">↗ LinkedIn</a>
+                <a href="https://github.com/alangutierrezramirez" class="about-link" target="_blank">↗ GitHub</a>
+                <a href="mailto:alangutier24@gmail.com" class="about-link">✉ Email</a>
             </div>
         </div>
 
-        <div class="scroll-indicator" onclick="document.getElementById('profile-section').scrollIntoView({behavior: 'smooth'})">
-            <span style="font-size:0.8rem;">SCROLL FOR INFO</span>
-            <span class="arrow-icon">↓</span>
-        </div>
-    </section>
-            
-    <section id="profile-section">
-            <h2 style="font-size: 2rem; border-bottom: 2px solid #00ff96; padding-bottom: 10px;">// OPERATOR_PROFILE</h2>
-            
-            <div class="profile-grid">
-                <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
-                    <img src="./imgs/selfie.jpeg" class="profile-pic" alt="Profile">
-                    <p style="text-align:center;">
-                        Creative Developer specializing in Graphics Programming and Engine Architecture.
-                        Obsessed with performance and visual fidelity.
+        <div>
+            <div class="skills-grid">
+                <div>
+                    <div class="skill-group-label">Languages</div>
+                    <div class="tags">
+                        <span class="tag core">C++</span>
+                        <span class="tag core">C</span>
+                        <span class="tag core">GLSL / HLSL</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-group-label">Graphics & Physics</div>
+                    <div class="tags">
+                        <span class="tag core">OpenGL</span>
+                        <span class="tag core">PhysX</span>
+                        <span class="tag">DirectX</span>
+                        <span class="tag">Vulkan</span>
+                        <span class="tag">RenderDoc</span>
+                        <span class="tag">Real-Time Rendering</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-group-label">Engines & Tools</div>
+                    <div class="tags">
+                        <span class="tag core">Unreal Engine 5</span>
+                        <span class="tag">Unity</span>
+                        <span class="tag">CMake</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Perforce</span>
+                        <span class="tag">Visual Studio</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="xp-list">
+                <div class="xp-item">
+                    <span class="xp-role">Junior Software Developer</span>
+                    <span class="xp-co">LSyM — Laboratorio de Simulación y Modelado</span>
+                    <span class="xp-date">Nov 2024 – Oct 2025 · Valencia</span>
+                    <p class="xp-desc">
+                        Real-time physics simulation platform in C++ with PhysX and OpenGL.
+                        Built a test-creation tool for heavy machinery simulators, designed a scalable
+                        SQL schema, and translated technical documentation for international deployment.
                     </p>
-                    <a href="./cv/Gutierrez-CV.pdf" class="cv-link">
-                        [ DOWNLOAD_CV.PDF ]
-                    </a>
                 </div>
-
-                <div class="xp-list">
-                    <div class="xp-item">
-                        <span class="xp-role">SOFTWARE DEVELOPER</span>
-                        <span class="xp-date">2024 - 2025</span>
-                        <div>3D Engine woring with C++ and OpenGL as well as Physx</div>
-                    </div>
-                    <div class="xp-item">
-                        <span class="xp-role">GAMEPLAY DEVELOPER</span>
-                        <span class="xp-date">2022 - 2024</span>
-                        <div>Shipped A title on Steam. Developed custom AI character in C#.</div>
-                    </div>
+                <div class="xp-item">
+                    <span class="xp-role">HND — Video Game Programming</span>
+                    <span class="xp-co">ESAT · Escuela Superior de Arte y Tecnología</span>
+                    <span class="xp-date">Completed July 2024 · Valencia</span>
+                    <p class="xp-desc">Advanced C++, Graphics Programming, Game Engine Architecture.</p>
+                </div>
+                <div class="xp-item">
+                    <span class="xp-role">Computer Science Coursework</span>
+                    <span class="xp-co">Gustavus Adolphus College</span>
+                    <span class="xp-date">2014 – 2017 · USA</span>
                 </div>
             </div>
-    </section>
+        </div>
+    </div>
+</section>
 
-    <canvas id="gl-canvas"></canvas>
+<footer>
+    <div>Alan Gutierrez Ramirez · Valencia, Spain · EU Citizen</div>
+    <div><a href="mailto:alangutier24@gmail.com">alangutier24@gmail.com</a></div>
+</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+    // Header scroll effect
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+</script>
 
-    <script>
-        // --------------------------------------------------------
-        // 2. CONFIGURATION & DATA
-        // --------------------------------------------------------
-        
-        // NOTE: I have replaced your local paths with public URLs so the demo works instantly.
-        // You can swap these strings back to "./videos/filename.webm" later.
-        const projects = [
-            {
-                title: "Through the years",
-                tech: "UNREAL ENGINE 5 // C++ // Unity // C# // Shaders // OpenGL",
-                desc: "A journey in my development for video game development",
-                color: new THREE.Vector3(0.1, 1.5, 0.5), // Greenish
-                video: "./videos/ThisVideoTookMe3YearsToMake.webm" 
-            },
-            {
-                title: "Engine",
-                tech: "OpenGL // c++ // GitHub // SQL",
-                desc: "A custom 3D game engine built from scratch to handle millions ov vertices",
-                color: new THREE.Vector3(1.5, 0.1, 0.2), // Reddish
-                video: "./videos/engine.webm"
-            },
-            {
-                title: "Unity",
-                tech: "C#",
-                desc: "A mechanic for conversations made for unity",
-                color: new THREE.Vector3(0.2, 0.5, 2.0), // Blueish
-                video: "./videos/unity_chat.webm"
-            },
-            {
-                title: "Star Castle",
-                tech: "C++",
-                desc: "My version of Star Castle made entirely from scratch",
-                color: new THREE.Vector3(0.2, 0.5, 2.0), // Blueish
-                video: "./videos/starcastle.webm"
-            },
-            {
-                title: "SECRET PROJECT",
-                tech: "UNANNOUNCED",
-                desc: "Currently in early development. Stay tuned.",
-                video: "./videos/banana_man.webm", // Use a generic loop or a teaser video
-                comingSoon: true // <--- THE MAGIC FLAG
-            }
-        ];
-
-        let currentProjectIndex = 0;
-
-        // --------------------------------------------------------
-        // 3. THE SHADER CODE
-        // --------------------------------------------------------
-        
-        const vertexShader = `
-            varying vec2 vUv;
-            uniform float uTime;
-            
-            void main() {
-                vUv = uv;
-                vec3 pos = position;
-                // Subtle breathing effect
-                pos.z += sin(pos.x * 2.0 + uTime) * 0.05;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            }
-        `;
-
-        // FIXED: Added uGlitchIntensity and logic to use it
-        const fragmentShader = `
-            uniform sampler2D uTexture;
-            uniform float uTime;
-            uniform float uDim; 
-            uniform float uGlitchIntensity; // <--- This was missing in your shader
-            varying vec2 vUv;
-
-            // Random function for glitch noise
-            float random(vec2 co){
-                return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-            }
-
-            void main() {
-                vec2 uv = vUv;
-
-                // 1. GLITCH EFFECT LOGIC
-                // If glitch intensity > 0, we shake the UVs and split RGB
-                float shake = (random(vec2(uTime, uv.y)) - 0.5) * uGlitchIntensity * 0.1;
-                
-                // RGB Split
-                float r = texture2D(uTexture, uv + vec2(shake, 0.0)).r;
-                float g = texture2D(uTexture, uv).g;
-                float b = texture2D(uTexture, uv - vec2(shake, 0.0)).b;
-                
-                vec3 finalColor = vec3(r, g, b);
-
-                // 2. DIMMING (Coming Soon Logic)
-                float brightness = 1.0 - (uDim * 0.95); 
-                finalColor *= brightness;
-
-                // 3. Tech Tint
-                vec3 techColor = vec3(0.0, 0.1, 0.2); 
-                finalColor = mix(finalColor, finalColor + techColor, 0.2);
-
-                gl_FragColor = vec4(finalColor, 1.0);
-            }
-        `;
-
-        // --------------------------------------------------------
-        // 4. THREE.JS SETUP
-        // --------------------------------------------------------
-
-        const canvas = document.querySelector('#gl-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 5;
-
-        // Mouse tracking
-        const mouse = new THREE.Vector2();
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        // --------------------------------------------------------
-        // 5. VIDEO TEXTURE HANDLING
-        // --------------------------------------------------------
-
-        function loadVideoTexture(url) {
-            const video = document.createElement('video');
-            video.src = url;
-            video.crossOrigin = "anonymous";
-            video.loop = true;
-            video.muted = true; // Essential for autoplay
-            video.playsInline = true;
-            
-            // Create texture but don't play yet
-            const texture = new THREE.VideoTexture(video);
-            texture.minFilter = THREE.LinearFilter;
-            texture.magFilter = THREE.LinearFilter;
-            texture.format = THREE.RGBAFormat;
-            
-            texture.image = video; // Store reference
-            return texture;
-        }
-
-        // Initialize with first project
-        const initialTexture = loadVideoTexture(projects[0].video);
-
-        const geometry = new THREE.PlaneGeometry(4.8, 2.7, 32, 32); // 16:9
-        const material = new THREE.ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                uTime: { value: 0 },
-                uGlitchIntensity: { value: 0 }, // Initial value
-                uTexture: { value: initialTexture },
-                uDim: { value: 0 } 
-            }
-        });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-
-        // Background Stars
-        const starsGeo = new THREE.BufferGeometry();
-        const starsCount = 1000;
-        const posArray = new Float32Array(starsCount * 3);
-        for(let i=0; i<starsCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 15;
-        }
-        starsGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const starsMat = new THREE.PointsMaterial({
-            size: 0.02,
-            color: 0x00ff96,
-            transparent: true,
-            opacity: 0.4
-        });
-        const stars = new THREE.Points(starsGeo, starsMat);
-        scene.add(stars);
-
-        // --------------------------------------------------------
-        // 6. ANIMATION LOOP
-        // --------------------------------------------------------
-
-        const clock = new THREE.Clock();
-        let lastFrame = 0;
-
-        function animate() {
-            const elapsedTime = clock.getElapsedTime();
-
-            // Update Shader Time
-            material.uniforms.uTime.value = elapsedTime;
-
-            // Parallax Effect
-            mesh.rotation.x = THREE.MathUtils.lerp(mesh.rotation.x, mouse.y * 0.1, 0.05);
-            mesh.rotation.y = THREE.MathUtils.lerp(mesh.rotation.y, mouse.x * 0.1, 0.05);
-
-            stars.rotation.y = elapsedTime * 0.05;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-
-            // FPS Counter
-            if(elapsedTime > 1.0 && Math.random() > 0.95) {
-                const fps = Math.round(1000 / (performance.now() - lastFrame));
-                document.getElementById('fps').innerText = fps;
-            }
-            lastFrame = performance.now();
-        }
-
-        animate();
-
-        // --------------------------------------------------------
-        // 7. PROJECT SWITCHING LOGIC
-        // --------------------------------------------------------
-
-        function updateUI(index) {
-            const p = projects[index];
-            
-            // 1. Text Animations
-            gsap.fromTo("#p-title", {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 0.5});
-            gsap.fromTo("#p-desc", {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 0.5, delay: 0.1});
-            
-            document.getElementById('p-title').innerText = p.title;
-            document.getElementById('p-tech').innerText = p.tech;
-            document.getElementById('p-desc').innerText = p.desc;
-
-            // 2. Coming Soon Logic
-            if (p.comingSoon) {
-                gsap.to("#coming-soon-label", { opacity: 1, duration: 0.5 });
-                gsap.to(material.uniforms.uDim, { value: 1.0, duration: 0.5 });
-            } else {
-                gsap.to("#coming-soon-label", { opacity: 0, duration: 0.5 });
-                gsap.to(material.uniforms.uDim, { value: 0.0, duration: 0.5 });
-            }
-
-            // 3. Glitch & Video Transition
-            const tl = gsap.timeline();
-            
-            // Spike the glitch intensity up
-            tl.to(material.uniforms.uGlitchIntensity, { value: 2.0, duration: 0.2, ease: "power2.in" })
-              .add(() => {
-                  // SWAP VIDEO TEXTURE HERE
-                  const oldTexture = material.uniforms.uTexture.value;
-                  if(oldTexture.image && typeof oldTexture.image.pause === 'function') {
-                      oldTexture.image.pause();
-                  }
-
-                  const newTexture = loadVideoTexture(p.video);
-                  material.uniforms.uTexture.value = newTexture;
-
-                  // Force Play
-                  if(newTexture.image) {
-                      newTexture.image.play().catch(e => console.log(e));
-                  }
-              })
-              // Bring glitch intensity back down
-              .to(material.uniforms.uGlitchIntensity, { value: 0.0, duration: 0.4, ease: "power2.out" });
-        }
-
-        window.nextProject = function() {
-            currentProjectIndex = (currentProjectIndex + 1) % projects.length;
-            updateUI(currentProjectIndex);
-        }
-
-        window.prevProject = function() {
-            currentProjectIndex = (currentProjectIndex - 1 + projects.length) % projects.length;
-            updateUI(currentProjectIndex);
-        }
-
-        // --------------------------------------------------------
-        // 8. STARTUP LOGIC
-        // --------------------------------------------------------
-        
-        // Window Resize Handler
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        window.onload = () => {
-            const startBtn = document.getElementById('start-btn');
-            const loadingText = document.getElementById('loading-text');
-            
-            // Simulate loading
-            let percent = 0;
-            const interval = setInterval(() => {
-                percent += Math.floor(Math.random() * 10) + 5;
-                if(percent >= 100) {
-                    percent = 100;
-                    clearInterval(interval);
-                    if(loadingText) loadingText.style.display = 'none';
-                    if(startBtn) startBtn.style.display = 'block';
-                }
-                if(loadingText) loadingText.innerText = percent + "%";
-            }, 100);
-
-            // User Click Interaction
-            if(startBtn) {
-                startBtn.addEventListener('click', () => {
-                    const loader = document.getElementById('loader');
-                    loader.style.opacity = 0;
-                    setTimeout(() => { loader.style.display = 'none'; }, 1000);
-
-                    // Force play current video
-                    const tex = material.uniforms.uTexture.value;
-                    if(tex && tex.image) tex.image.play().catch(e => console.log("Autoplay block:", e));
-                });
-            }
-        };
-
-    </script>
 </body>
 </html>
