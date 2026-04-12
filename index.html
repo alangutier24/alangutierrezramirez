@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alan Gutierrez Ramirez — C++ / Graphics Developer</title>
+<title>Alan Gutierrez — C++ / Graphics Developer</title>
 <meta name="description" content="C++ Software Developer specializing in graphics programming, real-time simulation, and game engine architecture. Based in Valencia, Spain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,6 +160,19 @@ h2{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:#fff;margin-bo
 .play-icon svg{margin-left:3px}
 .video-wrap:hover .play-hint{opacity:0}
 .video-wrap.playing .play-hint{display:none}
+
+.yt-wrap{
+  aspect-ratio:16/9;background:#050505;overflow:hidden;position:relative;cursor:pointer;
+}
+.yt-wrap .video-poster{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .4s}
+.yt-wrap .play-hint{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.4);transition:opacity .3s;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:rgba(255,255,255,.6);
+  flex-direction:column;gap:.5rem;
+}
+.yt-wrap:hover .play-hint{opacity:0}
+.yt-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
 
 .project-info{padding:1.25rem 1.5rem}
 .project-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
@@ -332,10 +345,9 @@ section,nav,footer{position:relative;z-index:1}
   <div class="projects-grid">
 
     <!-- Shelley Manor -->
-    <div class="project-card" data-video="./videos/shelley_manor.webm">
-      <div class="video-wrap" onclick="playVideo(this)">
-        <img class="video-poster" src="./imgs/poster_shelley.jpg" alt="Shelley Manor" loading="lazy" onerror="this.style.background='#1a1a2e'">
-        <video loop muted playsinline preload="none"></video>
+    <div class="project-card">
+      <div class="yt-wrap" data-ytid="z63nXnn1NeM">
+        <img class="video-poster" src="https://img.youtube.com/vi/z63nXnn1NeM/maxresdefault.jpg" alt="Shelley Manor" loading="lazy">
         <div class="play-hint">
           <div class="play-icon">
             <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M0 0l14 8L0 16V0z"/></svg>
@@ -359,7 +371,7 @@ section,nav,footer{position:relative;z-index:1}
 
     <!-- JAM Engine -->
     <div class="project-card" data-video="./videos/engine.webm">
-      <div class="video-wrap" onclick="playVideo(this)">
+      <div class="video-wrap">
         <img class="video-poster" src="./imgs/poster_engine.jpg" alt="JAM Engine" loading="lazy" onerror="this.style.background='#1a0a0a'">
         <video loop muted playsinline preload="none"></video>
         <div class="play-hint">
@@ -384,7 +396,7 @@ section,nav,footer{position:relative;z-index:1}
 
     <!-- Unity Dialogue System -->
     <div class="project-card" data-video="./videos/unity_chat.webm">
-      <div class="video-wrap" onclick="playVideo(this)">
+      <div class="video-wrap">
         <img class="video-poster" src="./imgs/poster_unity.jpg" alt="Unity Dialogue System" loading="lazy" onerror="this.style.background='#0a1a0a'">
         <video loop muted playsinline preload="none"></video>
         <div class="play-hint">
@@ -407,7 +419,7 @@ section,nav,footer{position:relative;z-index:1}
 
     <!-- Star Castle -->
     <div class="project-card" data-video="./videos/starcastle.webm">
-      <div class="video-wrap" onclick="playVideo(this)">
+      <div class="video-wrap">
         <img class="video-poster" src="./imgs/poster_starcastle.jpg" alt="Star Castle" loading="lazy" onerror="this.style.background='#0a0a1a'">
         <video loop muted playsinline preload="none"></video>
         <div class="play-hint">
@@ -430,7 +442,7 @@ section,nav,footer{position:relative;z-index:1}
 
     <!-- Through the Years -->
     <div class="project-card" data-video="./videos/ThisVideoTookMe3YearsToMake.webm">
-      <div class="video-wrap" onclick="playVideo(this)">
+      <div class="video-wrap">
         <img class="video-poster" src="./imgs/poster_years.jpg" alt="Through the Years" loading="lazy" onerror="this.style.background='#0f0f0f'">
         <video loop muted playsinline preload="none"></video>
         <div class="play-hint">
@@ -607,9 +619,9 @@ section,nav,footer{position:relative;z-index:1}
     </div>
     <div style="padding-top:3.5rem">
       <div class="contact-links">
-        <a href="mailto:alangutier24@gmail.com" class="contact-link">
+        <a href="/cdn-cgi/l/email-protection#40212c212e273534292532727400272d21292c6e232f2d" class="contact-link">
           <span class="contact-link-icon">@</span>
-          alangutier24@gmail.com
+          <span class="__cf_email__" data-cfemail="d0b1bcb1beb7a5a4b9b5a2e2e490b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span>
         </a>
         <a href="https://www.linkedin.com/in/alangutierrez" target="_blank" class="contact-link">
           <span class="contact-link-icon">in</span>
@@ -632,11 +644,31 @@ section,nav,footer{position:relative;z-index:1}
   <span style="color:var(--accent)">AG_R</span> · C++ / Graphics Developer · Valencia, Spain · Built with vanilla HTML/CSS/JS
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // NAV scroll effect
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)
 },{ passive:true });
+
+// Event delegation — handles clicks after DOM is ready
+document.addEventListener('click', e => {
+  const yt = e.target.closest('.yt-wrap');
+  if(yt) { playYT(yt); return; }
+  const vw = e.target.closest('.video-wrap');
+  if(vw) playVideo(vw);
+});
+
+// YOUTUBE EMBED — loads iframe only on click (saves bandwidth + no cookies until interaction)
+function playYT(wrap){
+  const id = wrap.dataset.ytid;
+  wrap.querySelector('.video-poster').style.opacity='0';
+  wrap.querySelector('.play-hint').style.display='none';
+  const iframe = document.createElement('iframe');
+  iframe.src=`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&rel=0`;
+  iframe.allow='autoplay; fullscreen';
+  iframe.allowFullscreen=true;
+  wrap.appendChild(iframe);
+}
 
 // LAZY VIDEO PLAY — only loads video source on click
 function playVideo(wrap){
@@ -664,10 +696,9 @@ const videoObserver = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     const video = e.target.querySelector('video');
     if(video && !video.paused && !e.isIntersecting) video.pause();
-  })
+  });
 },{threshold:0.1});
 document.querySelectorAll('.project-card').forEach(c=>videoObserver.observe(c));
 </script>
-
 </body>
 </html>
