@@ -1,101 +1,104 @@
 <div align="center">
 
 # Alan Gutierrez Ramirez
-### C++ Software Developer · Graphics & Real-Time Simulation
+### C++ Programmer · Graphics, Gameplay & Real-Time Simulation
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-alangutierrez.dev-00ff96?style=flat-square&logo=firefox&logoColor=white)](https://alangutierrez.dev)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-alangutierrez-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alangutierrez)
+[![Portfolio](https://img.shields.io/badge/Portfolio-alangutier24.github.io-00ff96?style=flat-square&logo=firefox&logoColor=white)](https://alangutier24.github.io/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alan-gutierrez-ramirez-81379921b)
 [![Email](https://img.shields.io/badge/Email-alangutier24@gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:alangutier24@gmail.com)
-[![Location](https://img.shields.io/badge/Location-Valencia%2C%20Spain%20·%20Remote%20EU-333?style=flat-square&logo=googlemaps&logoColor=white)]()
+![Location](https://img.shields.io/badge/Location-Valencia%2C%20Spain-333?style=flat-square&logo=googlemaps&logoColor=white)
 
 </div>
 
 ---
 
-C++ developer with **3+ years** building real-time graphics systems, physics simulations, and custom engines. I've shipped a commercial game on Steam, built production tools for industrial training simulators, and architected a 3D engine from scratch using OpenGL and ECS.
+C++ developer with professional experience building real-time physics simulation software for industrial training, and a background in video game programming. I work across gameplay and graphics with **Unreal Engine 5**, **Unity**, **OpenGL** and **NVIDIA PhysX**, and I'm currently building **SmallEngine**, a C++/OpenGL graphics engine focused on volumetric rendering.
 
-I write systems-level C++ — memory management, render pipelines, physics integration, multithreading — and I care about performance as much as I care about clean architecture.
-
-**Available for:** Remote roles in Europe · On-site in Valencia · Hybrid
+**Open to:** Remote · Hybrid · On-site — anywhere in Europe
 
 ---
 
 ## Featured Projects
 
-### 🎮 Shelley Manor — Steam
-> 3D narrative game · Unreal Engine 5 · C++ · Blueprints
+### SmallEngine — C++ Graphics Engine
+> C++ · OpenGL 4.1 · GLSL · CMake · Personal project
 
-🏆 **Best Student Game — Latam Games Com 2025** &nbsp;|&nbsp; 🏅 **Top 5 Hobby Game — GDWC Winter Season**
+- Lightweight graphics engine with custom window, input, camera, mesh, material and rendering systems
+- Volumetric rendering with ray marching: Beer–Lambert transmittance, procedural density generation, volumetric lighting and self-shadowing
+- Multithreaded CPU reference renderer to validate GPU shader output
+- RAII and move semantics for GPU resource management
 
-Shipped a full 3D narrative game on Steam in a multidisciplinary team. I owned gameplay systems, camera controls, lighting, materials, and post-processing. Managed rendering optimization to hit production milestones.
-
-[![Steam](https://img.shields.io/badge/Play%20on%20Steam-000?style=flat-square&logo=steam)](https://store.steampowered.com)
-[![Repo](https://img.shields.io/badge/Source-GitHub-333?style=flat-square&logo=github)](https://github.com/alangutierrezramirez)
-
----
-
-### ⚙️ JAM Engine — Custom C++ / OpenGL Engine
-> C++ · OpenGL · GLSL · ECS Architecture
-
-A 3D graphics engine built from the ground up. No engine wrapper — pure C++.
-
-**What's inside:**
-- Full render loop with forward rendering pipeline
-- Real-time lighting + shadow mapping + volumetric lighting
-- Particle systems with CPU simulation
-- Entity Component System (ECS) architecture
-- Sound manager integration
-- Memory management with custom allocators
-
-[![Repo](https://img.shields.io/badge/Source-GitHub-333?style=flat-square&logo=github)](https://github.com/alangutierrezramirez)
+[![Repo](https://img.shields.io/badge/Source-GitHub-333?style=flat-square&logo=github)](https://github.com/alangutier24/SmallEngine)
 
 ---
 
-### 🏭 Real-Time Physics Simulation Platform — LSyM
-> C++ · PhysX · OpenGL · SQL · Professional
+### Shelley Manor — Steam
+> 3D narrative game · Unreal Engine 5 · C++ · Blueprints · Team project
 
-Production system for industrial heavy machinery training simulators. Built as a **Junior Software Developer at LSyM (2024–2025)**.
+**Best Student Game — BIG Festival, Gamescom Latam 2025** &nbsp;|&nbsp; **Recognized at the Game Development World Championship (GDWC)**
 
-- Engineered a C++ test-creation tool used by instructors in live training scenarios
-- Implemented and optimized core physics mechanics using **NVIDIA PhysX**
-- Designed a scalable **SQL schema** for simulation data across multiple training scenarios
-- Delivered QA, debugging, and optimization on engine mechanics
+Collaborative 3D narrative game developed in Unreal Engine 5 and released on Steam (free, Early Access).
 
-*Private repo — professional work. Screenshots available on request.*
+- Implemented and refined gameplay systems and camera controls
+- Worked on lighting, materials and post-processing
+- Debugging and visual optimization
+
+[![Steam](https://img.shields.io/badge/Play%20on%20Steam-000?style=flat-square&logo=steam)](https://store.steampowered.com/app/2999270/Shelley_Manor/)
+
+---
+
+### Trapped in Space — Third-Person Shooter
+> Unity 2022.3 LTS · C# · URP · Solo project · In development
+
+Third-person shooter set on an uncharted island.
+
+- Third-person shooting mechanics
+- Enemy patrol AI
+- Ongoing work on gameplay systems and enemy behaviour
+
+[![Repo](https://img.shields.io/badge/Source-GitHub-333?style=flat-square&logo=github)](https://github.com/alangutier24/Trapped_In_Space)
+
+---
+
+### ⚙️ JAM Engine — Team C++ / OpenGL Engine
+> C++ · OpenGL · GLSL · ECS · Team project
+
+3D engine written in C++ without a third-party engine. Features include a forward rendering pipeline, real-time lighting with shadow mapping and volumetric lighting, CPU particle systems, an Entity Component System, a sound manager and custom memory allocators.
+
+*Team project — source code is not public.*
+
+---
+
+## Professional Experience
+
+### Junior Software Developer — LSyM, Laboratorio de Simulación y Modelado
+> Valencia, Spain · Nov 2024 – Oct 2025 · C++ · NVIDIA PhysX · SQL
+
+- Developed a C++ tool for creating training tests and scenarios for a heavy-machinery simulator, supporting instructors in preparing and managing training sessions
+- Contributed to the simulator's core systems and physics functionality using C++ and **NVIDIA PhysX**
+- Investigated and debugged issues across simulation behaviour, physics models and engine functionality, supporting QA and system reliability
+- Worked with SQL databases and translated technical documentation and manuals from Spanish into English
+
+*Professional work — code is private.*
 
 ---
 
 ## Tech Stack
 
 ```
-Languages      C++  ·  C  ·  C#  ·  Python  ·  GLSL/HLSL  ·  SQL
-Graphics       OpenGL  ·  PhysX  ·  DirectX  ·  Real-Time Rendering  ·  Vulkan (learning)
-Engines        Custom C++ Engines  ·  Unreal Engine 5  ·  Unity
-Tools          Visual Studio  ·  RenderDoc  ·  CMake  ·  Git  ·  Perforce
-Core           OOP  ·  Memory Management  ·  Multithreading  ·  ECS  ·  Debugging & Optimization
-```
-
----
-
-## Experience Timeline
-
-```
-Nov 2024 – Oct 2025   Junior Software Developer · LSyM, Valencia
-                      C++ · PhysX · OpenGL · SQL · Real-Time Simulation
-
-2023 – 2024           Gameplay Programmer · Shelley Manor (Steam)
-                      UE5 · C++ · Blueprints · Shipped commercial title
-
-2022 – 2024           Engine Developer · JAM Engine (Portfolio)
-                      C++ · OpenGL · GLSL · ECS · Custom engine from scratch
+Languages      C++  ·  C#  ·  Python  ·  SQL  ·  GLSL  ·  HLSL
+Graphics       OpenGL  ·  Shaders  ·  Real-Time Rendering
+Simulation     NVIDIA PhysX  ·  Physics Simulation
+Engines        Unreal Engine 5  ·  Unity (URP)
+Tools          Visual Studio  ·  CMake  ·  Git  ·  RenderDoc  ·  Perforce
+Core           OOP  ·  Memory Management  ·  Multithreading  ·  Debugging  ·  Performance Optimization
 ```
 
 ---
 
 ## Education
 
-**HND in Video Game Programming** — ESAT, Valencia *(July 2024)*
-> Focus: Advanced C++, Graphics Programming, Game Engine Architecture
+**HND in Video Game Programming** — ESAT (Escuela Superior de Arte y Tecnología), Valencia *(July 2024)*
 
 **Computer Science Coursework** — Gustavus Adolphus College, USA *(2014–2017)*
 
@@ -103,16 +106,16 @@ Nov 2024 – Oct 2025   Junior Software Developer · LSyM, Valencia
 
 ## Languages & Work Authorization
 
-🇪🇸 **Spanish** — Native &nbsp;|&nbsp; 🇬🇧 **English** — Fluent (Professional Working Proficiency)
+**Spanish** — Native &nbsp;|&nbsp; **English** — Fluent
 
-🇪🇺 **EU Citizen (Spain)** — No visa sponsorship required
+**EU Citizen** — No visa sponsorship required
 
 ---
 
 <div align="center">
 
-*Open to C++ / Graphics / Engine / Simulation roles across Europe*
+*Open to C++ · Graphics · Gameplay · Engine · Simulation roles across Europe*
 
-[![Portfolio](https://img.shields.io/badge/See%20my%20work-alangutierrez.dev-00ff96?style=for-the-badge)](https://alangutierrez.dev)
+[![Portfolio](https://img.shields.io/badge/See%20my%20work-alangutier24.github.io-00ff96?style=for-the-badge)](https://alangutier24.github.io/)
 
 </div>
